@@ -1,0 +1,26 @@
+ADR 5 — Beheer van woningen
+
+Status
+Draft
+
+Context
+De app beheert slimme apparaten in een woning.
+Er werd bekeken of een gebruiker meerdere woningen moet kunnen beheren, zoals een huis en een vakantiehuis. Dit zou zorgen voor extra schermen, meer databankrelaties en moeilijkere validatie.
+
+Decision:
+De app ondersteunt voorlopig slechts één woning per gebruiker.
+Ondersteuning voor meerdere woningen wordt later toegevoegd.
+
+Consequences:
+* Positief
+Usability:De app blijft eenvoudig te gebruiken.
+Maintainability:De code en databank blijven eenvoudiger.
+Performance:Minder complexiteit zorgt voor betere prestaties.
+Development speed: Het team kan sneller een stabiele versie maken.
+* Negatief
+Functionaliteit:Gebruikers kunnen maar één woning beheren.
+Schaalbaarheid:Later uitbreiden naar meerdere woningen vraagt extra werk.
+
+Governance
+Deze keuze werd gemaakt om de eerste versie van de app eenvoudig en stabiel te houden.
+De beslissing kan later aangepast worden als meerdere woningen belangrijk worden voor gebruikers.
