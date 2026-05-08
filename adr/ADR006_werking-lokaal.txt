@@ -1,0 +1,11 @@
+TITLE           006 lokaal aansturen van aparaten
+STATUS          draft
+CONTEXT         Er zijn verschillende manieren om aparaten over het lokale netwerk aan te sturen
+                Enkel de app gebruiken
+                app + hub
+DECISION        Om de apparaten centraal aan te sturen vanop het lokale netwerk zal een hub gebruikt worden. De hub functioneerd dan als een proxy tussen de app en apparaten.
+CONSEQUENCE
+                + automatische acties kunnen onafhankelijk van de app uitgevoerd worden. 
+                + apparaten beter afgescherm 
+GOVERNANCE      nvt
+NOTES           ADR zal nog verder uitgewerkt worden
