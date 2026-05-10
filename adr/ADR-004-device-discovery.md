@@ -1,86 +1,49 @@
-# ADR-004: Actieve Device Discovery via Probe en Announcement
+# ADR-004: Strategie voor het ontdekken van apparaten op het netwerk
 
 ## Status
 
-Draft
+Accepted
 
 ---
 
 ## Context
 
-De applicatie moet apparaten van verschillende merken en protocollen kunnen ontdekken op het
-lokale netwerk. Dit is rechtstreeks gekoppeld aan onze belangrijkste karakteristiek
-**interoperability** — zonder een robuust discovery mechanisme kunnen apparaten van
-verschillende merken niet geïntegreerd worden.
+Om apparaten van verschillende merken te kunnen beheren, moet de applicatie eerst weten welke
+apparaten beschikbaar zijn op het thuisnetwerk. Dit is een fundamentele stap — zonder een
+goede discovery strategie kan de applicatie haar kernbelofte van **interoperability** niet
+waarmaken.
 
-Er zijn twee gangbare methodes om apparaten te ontdekken op een netwerk:
+Er zijn twee gangbare manieren waarop apparaten ontdekt kunnen worden:
 
 **Probe-based discovery**
-Het systeem stuurt actief een broadcast uit en wacht op reacties van beschikbare apparaten.
-Het systeem heeft volledige controle over wanneer dit gebeurt. Voorbeelden:
-
-- **ARP scanning:** stuurt een broadcast op het netwerk en verzamelt MAC-adressen van
-  aanwezige apparaten
-- **Zigbee permit join broadcast:** opent het Zigbee netwerk tijdelijk zodat nieuwe apparaten
-  kunnen joinen
-- **Matter commissioner discovery:** stuurt een DNS-SD query waarop Matter-compatibele
-  apparaten antwoorden
+De applicatie neemt zelf het initiatief en stuurt een vraag uit op het netwerk. Apparaten die
+deze vraag ontvangen, antwoorden met hun aanwezigheid. De applicatie heeft volledige controle
+over wanneer dit gebeurt.
 
 **Announcement-based discovery**
-Het systeem opent een tijdvenster waarin het wacht op apparaten die zichzelf actief aankondigen
-op het netwerk. Voorbeelden:
+De applicatie opent een tijdvenster en wacht. Apparaten die zichzelf willen kenbaar maken,
+sturen uit zichzelf een bericht. De applicatie vangt deze berichten op.
 
-- **mDNS/Bonjour:** apparaten kondigen zichzelf aan op het lokale netwerk via multicast DNS
-  zonder centrale DNS-server
-- **SSDP:** apparaten sturen periodiek een multicast bericht met hun aanwezigheid en services,
-  onderdeel van het UPnP protocol
-- **Zigbee device announcements:** een Zigbee apparaat stuurt automatisch een bericht op het
-  Zigbee netwerk wanneer het opstart of terug online komt
-
-Niet alle apparaten ondersteunen beide methodes. Sommige apparaten reageren enkel op een probe,
-andere kondigen zichzelf enkel aan. Aangezien **interoperability** een van de drie meest
-kritische karakteristieken is, mag de keuze van discovery methode geen apparaten uitsluiten op
-basis van hun ondersteunde methode.
-
-De keuze heeft gevolgen voor:
-
-- Welke apparaten en merken ondersteund worden
-- De hoeveelheid en timing van netwerkverkeer
-- De beveiliging van het netwerk
-- De implementatiecomplexiteit
-
-### Relevante karakteristieken
-
-| Karakteristiek | Prioriteit | Relevantie |
-|---|---|---|
-| Interoperability | Top 3 | Verschillende merken en protocollen moeten ondersteund worden |
-| Reliability | — | Discovery moet werken ongeacht welke methode een apparaat ondersteunt |
-| Security | — | Discovery gebeurt alleen op expliciete gebruikersactie |
-| Usability | Top 3 | De gebruiker ziet één duidelijke lijst zonder technische details |
+Het probleem is dat niet elk merk of protocol dezelfde methode ondersteunt. Sommige apparaten
+reageren enkel op een actieve vraag, andere kondigen zichzelf enkel zelf aan. Een keuze voor
+slechts één methode sluit dus automatisch een deel van de markt uit — wat rechtstreeks ingaat
+tegen onze karakteristiek **interoperability**.
 
 ---
 
 ## Decision
 
-**We kiezen voor volledig actieve, sequentiële discovery waarbij zowel probe als announcement
-sequentieel worden uitgevoerd op expliciete gebruikersactie.**
+**We kiezen ervoor om beide methodes te ondersteunen, uitgevoerd na elkaar op expliciete
+vraag van de gebruiker.**
 
-Discovery wordt enkel gestart wanneer de gebruiker actief een apparaat wil toevoegen. Er is
-geen passief achtergrondproces dat continu meeluistert.
+Discovery start pas wanneer de gebruiker actief aangeeft een apparaat te willen toevoegen.
+Er is geen achtergrondproces dat continu meeluistert. Het systeem voert eerst een probe uit,
+opent daarna een venster voor announcements, en toont uiteindelijk één gecombineerde lijst
+van gevonden apparaten. Apparaten die via beide methodes gevonden worden, verschijnen slechts
+één keer in die lijst.
 
-Het proces verloopt als volgt:
-
-1. Gebruiker start discovery via de interface
-2. Systeem voert een **probe scan** uit — stuurt een broadcast en verzamelt reacties gedurende
-   een vast tijdvenster
-3. Systeem opent een **announcement venster** — wacht gedurende een vast tijdvenster op
-   apparaten die zichzelf aankondigen
-4. Beide resultaten worden samengevoegd en **gededupliceerd op basis van het MAC-adres** van
-   elk apparaat
-5. De gebruiker ziet één gecombineerde lijst van gevonden apparaten
-
-De gebruikte discovery methode is een intern implementatiedetail en wordt niet getoond in de
-interface. De gebruiker ziet enkel het gevonden apparaat en zijn eigenschappen.
+Welke technische methode gebruikt werd om een apparaat te vinden is een intern detail dat niet
+zichtbaar is voor de gebruiker.
 
 ---
 
@@ -88,54 +51,45 @@ interface. De gebruiker ziet enkel het gevonden apparaat en zijn eigenschappen.
 
 ### Positief
 
-- **(+) Interoperability:** Apparaten die enkel probe of enkel announcement ondersteunen worden
-  beiden gevonden. Geen enkel apparaat wordt uitgesloten op basis van zijn discovery methode.
-- **(+) Security:** Doordat discovery enkel actief gestart wordt op gebruikersactie, verwerkt
-  de hub buiten dat venster geen discovery packets. Dit minimaliseert het aanvalsoppervlak —
-  een aanvaller die crafted announcement packets stuurt naar de hub wordt genegeerd zolang er
-  geen actieve scan loopt. Bij passief luisteren zou de hub continu packets verwerken, wat bij
-  een vulnerability in de parser misbruikt kan worden.
-- **(+) Usability:** De gebruiker ziet één overzichtelijke lijst zonder technische details over
-  hoe een apparaat gevonden werd.
-- **(+) Performance:** Geen continu achtergrondverkeer — netwerkbelasting is beperkt tot het
-  moment van actieve discovery.
-- **(+) Deduplicatie:** Apparaten die beide methodes ondersteunen verschijnen slechts één keer
-  in de lijst dankzij MAC-adres matching.
+- **(+) Interoperability:** Geen enkel apparaat wordt uitgesloten op basis van welke discovery
+  methode het ondersteunt. Beide gevallen worden gedekt.
+- **(+) Security:** Omdat de applicatie enkel actief scant op vraag van de gebruiker, is ze
+  buiten dat moment niet vatbaar voor apparaten of aanvallers die berichten uitsturen op het
+  netwerk. Een continu luisterende applicatie zou een groter aanvalsoppervlak hebben.
+- **(+) Usability:** De gebruiker ziet één duidelijke lijst van beschikbare apparaten, zonder
+  technische details over hoe ze gevonden werden.
+- **(+) Performance:** Er is geen continu achtergrondverkeer op het netwerk. Netwerkbelasting
+  beperkt zich tot de momenten waarop de gebruiker actief apparaten zoekt.
 
 ### Negatief
 
-- **(-) Maintainability:** Beide methodes moeten geïmplementeerd en onderhouden worden, wat de
-  complexiteit van de discovery component verhoogt.
-- **(-) Gebruikerservaring:** De gebruiker moet wachten op twee opeenvolgende scanvensters
-  voordat de volledige lijst beschikbaar is.
-- **(-) Tijdsbestek:** Twee discovery methodes implementeren kost meer tijd dan één. Dit is een
-  bewuste afweging ten voordele van interoperability.
+- **(-) Maintainability:** Twee discovery methodes ondersteunen is complexer dan één. Beide
+  moeten correct geïmplementeerd en onderhouden worden.
+- **(-) Gebruikerservaring:** De gebruiker wacht op twee opeenvolgende scanvensters voordat
+  het volledige resultaat zichtbaar is.
 
 ---
 
 ## Governance
 
-- De volledige discovery logica wordt gecentraliseerd in de **Apparaat-discovery** component.
-  Wijzigingen aan één methode hebben geen impact op andere componenten.
-- Deduplicatie gebeurt intern op basis van MAC-adres voordat resultaten aan de gebruiker getoond
-  worden.
-- De duur van elk scanvenster wordt configureerbaar gemaakt zodat dit later afgestemd kan worden
-  op de praktijk zonder code te wijzigen.
-- Bij uitbreiding naar nieuwe protocollen wordt per protocol gedocumenteerd welke discovery
-  methode ondersteund wordt.
+- Alle discovery logica wordt ondergebracht in de **Apparaat-discovery** component zodat
+  toekomstige wijzigingen aan één methode geen impact hebben op de rest van het systeem.
+- De duur van elk scanvenster wordt instelbaar gemaakt zodat dit later bijgesteld kan worden
+  zonder aanpassingen aan de code.
 
 ---
 
 ## Notes
 
-- **Als team groter / budget groter:** beide methodes zouden parallel kunnen draaien in plaats
-  van sequentieel, wat de totale discovery tijd halveert.
-- **Als team kleiner / budget kleiner:** enkel probe-based discovery zou geïmplementeerd worden
-  als fallback. Dit dekt de meeste moderne apparaten en is eenvoudiger te implementeren en te
-  beveiligen.
-- **Mogelijke POC:** een proof of concept die aantoont hoe het systeem sequentieel een probe
-  broadcast verstuurt en daarna een announcement venster opent, de resultaten samenvoegt en
-  duplicaten filtert op MAC-adres.
+- **Als team groter / budget groter:** beide methodes zouden gelijktijdig kunnen draaien in
+  plaats van na elkaar, wat de wachttijd voor de gebruiker halveert.
+- **Als team kleiner / budget kleiner:** enkel probe-based discovery zou volstaan als
+  vereenvoudigde aanpak. Dit dekt de meeste moderne apparaten en is eenvoudiger te beveiligen.
+- Deze ADR beslist over de **strategie** van discovery. Er kunnen aparte ADR's gemaakt worden
+  over welke specifieke protocollen gebruikt worden voor probe en announcement — denk aan keuzes
+  zoals mDNS, SSDP, Zigbee permit join of Matter commissioner discovery. Omwille van de scope
+  van dit project worden die beslissingen hier niet verder uitgewerkt, maar het is een bewuste
+  keuze om dit op te merken.
 
 ### Referenties
 
