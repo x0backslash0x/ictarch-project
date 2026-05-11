@@ -1,4 +1,6 @@
-ADR: Account verplicht voor gebruik van de applicatie
+Titel
+002 Account verplicht voor gebruik van de applicatie
+
 Context
 De applicatie is bedoeld voor het beheren van slimme woningen met apparaten van verschillende merken. Gebruikers moeten apparaten kunnen bedienen, scenario’s configureren en later mogelijk rechten of zones kunnen beheren. De groep heeft besproken of de applicatie ook zonder account bruikbaar zou moeten zijn, maar dat zou het moeilijker maken om gebruikers te onderscheiden, instellingen op te slaan en toegang goed te beveiligen.
 
