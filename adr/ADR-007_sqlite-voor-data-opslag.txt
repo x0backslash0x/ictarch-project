@@ -1,0 +1,22 @@
+TITLE
+007 SQLite voor data opslag
+
+STATUS
+draft
+
+CONTEXT 
+De keuze voor een microkernel architectuur vereist dat alle basisfunctionaliteit in 1 kern vervat zit. De nood aan data opslag maakt onderdeel uit van de basisfunctionalteit. Het gebruik van een aparte database dienst of server zou de isolatie tot 1 kern teniet doen. SQLite is kleinschalig genoeg om in te bouwen in de kern van de applicatie.
+
+DECISION
+SQlite zal gebruikt worden voor opslag voor data.
+
+
+CONSEQUENCES
++ heel weinig overhead. Komt performance ten goede.
++ geen externe database node nodig.
+
+GOVERNANCE
+nvt
+
+NOTES
+nvt
