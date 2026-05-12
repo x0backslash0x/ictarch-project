@@ -1,13 +1,24 @@
-TITLE           006 lokaal aansturen van aparaten
-STATUS          draft
-CONTEXT         Er zijn verschillende manieren om aparaten over het lokale netwerk aan te sturen
-                - Enkel de app gebruiken
-                - app + hub
-DECISION        Een hub zal gebruikt worden om de aparaten centraal (vanop het netwerk) aan te sturen. Een smartphone app zal dienen als interface voor de gebruiker met de hub.
+TITLE
+006 lokaal aansturen van aparaten
+
+STATUS
+accepted
+
+CONTEXT
+Er zijn verschillende manieren om aparaten over het lokale netwerk aan te sturen
+- Enkel de app gebruiken
+- app + hub
+
+DECISION
+Een hub zal gebruikt worden om de aparaten centraal (vanop het netwerk) aan te sturen. Een interne web app zal dienen als interface voor de gebruiker tot de hub.
+
 CONSEQUENCE
-                + een hub kan automatische acties onafhankelijk van de app uitvoeren.
-                + apparaten zijn makkelijker af te schermen omdat ze via een centraal punt op het netwerk moeten benaderd worden.
-                - een hub vormt een single point of failure
-GOVERNANCE      nvt
-NOTES           Mogelijks kan de hub zelf ook voorzien worden van een webinterface. Deze zou dan vanop het netwerk te benaderen zijn met een webbrowser.
-                Op die manier kan het systeem ook zonder smarthone app gebruikt worden. Dit zou dan de bruikbaarheid (useability) ten goede komen.
++ [useability] een hub kan automatische acties onafhankelijk van een mobiele app uitvoeren.
++ [security] apparaten zijn makkelijker af te schermen omdat ze via een centraal punt op het netwerk moeten benaderd worden.
+- [reliability] een hub vormt een single point of failure
+
+GOVERNANCE
+nvt
+
+NOTES
+nvt
