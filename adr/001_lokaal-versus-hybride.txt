@@ -1,18 +1,28 @@
-TITLE           001 Lokaal vs Cloud vs Hybride
-STATUS          draft
-CONTEXT         Er is de afweging te maken om de app volledig lokaal, volledig in de cloud of in een hybride model te laten werken.
-                Binnen een lokale model beperkt de communicatie zich tot het lokale netwerk.
-                Binnen een cloud model verloopt alle communicatie via een cloud server (extern).
-                Binnen een hybride model veerloopt de communicatie via een cloud servern, enkel lokaal of een combinatie van beiden.
-DECISION        ~~Om de apparaten centraal aan te sturen zal een hub gebruikt worden die zich op het lokale netwerk bevindt. De app zal dan communiceren met de hub.~~
-                Er wordt gekozen voor een lokale model.
+TITLE
+001 Lokaal vs Cloud vs Hybride
+
+STATUS
+accepted
+
+CONTEXT
+Er is de afweging te maken om de app volledig lokaal, volledig in de cloud of volgens een hybride model te laten werken.
+Binnen een lokale model beperkt de communicatie zich tot het lokale netwerk.
+Binnen een cloud model verloopt alle communicatie via een cloud server (extern).
+Binnen een hybride model veerloopt de communicatie via een cloud servern, enkel lokaal of een combinatie van beiden.
+
+DECISION
+Er wordt gekozen voor een lokale model.
+
 CONSEQUENCES
-                + zeer snelle response en directe verwerking (performance)
-                + werkt volledig offline, geen internet vereist
-                + betere privacy en controle over data (security)
-                - geen automatische synchronisatie tussen apparaten
-                - beperkte mogelijkheid voor toegang op afstand
-                - updates en backups moeten lokaal worden beheerd
-GOVERNANCE      nvt
-NOTES           In een latere uitbreiding wordt overgegaan tot een hybride model
-                De beslissing om met een hub te werken verdient misschien een aparte ADR
++ zeer snelle response en directe verwerking (performance)
++ werkt volledig offline, geen internet vereist
++ betere privacy en controle over data (security)
+- geen automatische synchronisatie tussen apparaten
+- beperkte mogelijkheid voor toegang op afstand
+- updates en backups moeten lokaal worden beheerd
+
+GOVERNANCE
+nvt
+
+NOTES
+In een latere uitbreiding wordt overgegaan tot een hybride model
