@@ -31,4 +31,15 @@ Je klant wil een applicatie voor het beheren van slimme woningen, waarbij appara
 # Logische componenten
 De workflow methode lijkt het meeste aangewezen om logische componenten te kunnen achterhalen. In de werking van de app zijn volgende elementen alvast te onderscheiden
 
-![logische componenten](info/logische_componenten_v1-kleiner.jpg)
+| component | taken |
+| --------- | ----- |
+| zone beheer | zones aanmaken / verwijderen |
+| gebruikers beheer | gebruiker aanmaken / aanpassen / verwijderen |
+| authenticator | gebruiker aanmelden / afmelden |
+| ontdekker | apparaten vinden op netwerk |
+| aparaat beheer | apparaten toevoegen / verwijderen / aansturen |
+| protocol adapter | apparaat commando's vertalen |
+| scenario beheer | scenario toevoegen / aanpassen / verwijderen / uitvoeren |
+| notificatie beheer | berichten tonen ivm app werking |
+| status beheer | realtime status van apparaten tonen |
+
