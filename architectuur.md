@@ -43,3 +43,15 @@ De workflow methode lijkt het meeste aangewezen om logische componenten te kunne
 | notificatie beheer | berichten tonen ivm app werking |
 | status beheer | realtime status van apparaten tonen |
 
+# Diagrammen
+## Systeem context
+![syteem context diagram](./diagrammen/SystemContext-dark.svg)
+![legende](./diagrammen/SystemContext-dark-key.svg)
+
+## Container
+![container diagram](./diagrammen/Containers-dark.svg)
+![legende](./diagrammen/Containers-dark-key.svg)
+
+## Deployment
+![deployment diagram](./diagrammen/Deployment-dark.svg)
+![legende](./diagrammen/Deployment-dark-key.svg)
