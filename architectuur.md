@@ -18,13 +18,15 @@ Je klant wil een applicatie voor het beheren van slimme woningen, waarbij appara
 *	Cross-platform (uitbereiding)
 
 # Karakteristieken
-1.	Useability
-2.	Interoperability
-3.	Configurability
-4.	Security
-5.	Maintainability
-6.	Reliability
-7.	Performance
+| Karakteristiek | Expliciet? | Top 3? | Toelichtig |
+| -------------- | ---------- | ------ | ---------- |
+| Useability     | ja         | ja     | Hoe gebruiksvriendelijk is de app. Hoe draagt de app bij aan de gebruikerservaring. |
+| Interoperability | ja       | ja     | Hoe gemakkelijk is het om verschillende merken/apparaten te integreren. |
+| Configurability  | ja       | ja     | In welke mate het mogelijk is om zaken te configureren in de app.  |
+| Security | nee | nee | In welke mate apparaten afgeschermd zijn en de app cyberaanvallen kan weerstaan. |
+| Maintainability | nee | nee | Hoe gemakkelijk de app op termijn te onderhouden valt. |
+| Reliability | nee | nee | Hoe betrouwbaar de werking van de app is. |
+| Performance | nee | nee | In welke mate de prestaties van de app worden beïenvloed door verschillende factoren. |
 
 # Logische componenten
 De workflow methode lijkt het meeste aangewezen om logische componenten te kunnen achterhalen. In de werking van de app zijn volgende elementen alvast te onderscheiden
