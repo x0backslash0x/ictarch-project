@@ -8,7 +8,7 @@ TARTGET_IP = "127.0.0.1"
 TARGET_PORT = 4002
 INTERVAL_SECONDS = 3
 
-device = [
+devices = [
     {
         "device_id": "device-light-001",
         "friendly_name": "Simulated Smart Lamp",
@@ -17,15 +17,34 @@ device = [
         "port": 12345,
         "protocol": "demo-announcement"
     },
+    {
+        "device_id": "device-thermostat-001",
+        "friendly_name": "Simulated Thermostat",
+        "device_type": "thermostat",
+        "ip": "192.168.1.51",
+        "port": 12346,
+        "protocol": "demo-announcement"
+    },
+    {
+        "device_id": "device-speaker-001",
+        "friendly_name": "Simulated Speaker",
+        "device_type": "speaker",
+        "ip": "192.168.1.52",
+        "port": 12347,
+        "protocol": "demo-announcement"
+    }
 ]
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
 
 print("Starting announcement sender...")
 
+device_index = 0
+
 while True:
+    device = devices[device_index]
     payload = json.dumps(device).encode("utf-8")
-    #sock.sendto(payload, (MULTICAST_GROUP, PORT))
     sock.sendto(payload, (TARTGET_IP, TARGET_PORT))
     print(f"Announcement sent: {device['friendly_name']}")
+    device_index = (device_index + 1) % len(devices)
     time.sleep(INTERVAL_SECONDS)
