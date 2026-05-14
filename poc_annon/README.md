@@ -22,3 +22,12 @@ Het doel van deze POC is om specifiek volgende vraagstelling te beantwoorden:
 Er zijn verschillende services nodig binnen deze POC
 - 1 service die periodiek announcements uitzend
 - 1 service die luisterd naar de announcements en ze verwerkt
+
+# gebruik
+1 listener starten en timeout instellen
+`python3 device-listener.py --timeout 20`
+
+2 announcer starten
+`python3 announcer.py`
+
+3 na de timeout toont listener welke toestellen gevonden zijn

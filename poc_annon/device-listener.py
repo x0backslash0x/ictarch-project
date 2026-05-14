@@ -3,10 +3,16 @@
 import socket
 import json
 import time
+import sys
+
+# default timeout #
+TIMEOUT = 10
+if sys.argv[1] == "--timeout":
+    TIMEOUT = float(sys.argv[2])
 
 
 class AnnouncementDiscovery:
-    def __init__(self, timeout_seconds=10):
+    def __init__(self, timeout_seconds=TIMEOUT):
         self.timeout_seconds = timeout_seconds
         self.devices = {}
 
@@ -62,7 +68,8 @@ class AnnouncementDiscovery:
 
 
 if __name__ == "__main__":
-    discovery = AnnouncementDiscovery(timeout_seconds=10)
+    ## BUG: waarom hier ook timeout instellen als dat bovenaan al gedaan wordt?
+    discovery = AnnouncementDiscovery(timeout_seconds=TIMEOUT)
     devices = discovery.run()
 
     print("\nDiscovered devices:")
