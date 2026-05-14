@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Home Hub</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+        }
+        h1 {
+            margin-top: 0;
+            color: #1f2937;
+        }
+        .status {
+            display: inline-block;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: #d1fae5;
+            color: #065f46;
+            font-weight: bold;
+        }
+        .card {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 18px;
+        }
+        ul {
+            margin: 8px 0 0 20px;
+        }
+        code {
+            background: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Smart Home Hub Dashboard</h1>
+        <p>Status: <span class="status">{{ status }}</span></p>
+
+        <div class="card">
+            <h2>Devices</h2>
+            <ul>
+                {% for device in devices %}
+                <li>{{ device }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>Last command</h2>
+            <p><strong>Status:</strong> {{ last_command.status }}</p>
+            {% if last_command.data %}
+            <p><strong>Data:</strong> <code>{{ last_command.data }}</code></p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

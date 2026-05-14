@@ -1,0 +1,12 @@
+services:
+  hub:
+    build: ./hub
+    container_name: hub
+    ports:
+      - "5000:5000"
+
+  app:
+    build: ./app
+    container_name: app
+    depends_on:
+      - hub
