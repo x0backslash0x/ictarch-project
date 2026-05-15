@@ -18,6 +18,9 @@ if len(sys.argv) == 4:
     TARGET_PORT = int(sys.argv[2])
     TIMEOUT = float(sys.argv[3])
 
+def format_timestamp(epoch_seconds):
+    local_time = time.localtime(epoch_seconds)
+    return time.strftime("%M:%S", local_time)
 
 class AnnouncementDiscovery:
     def __init__(self, timeout_seconds=TIMEOUT):
@@ -49,6 +52,7 @@ class AnnouncementDiscovery:
             "ip": payload.get("ip") or addr[0],
             "port": payload.get("port"),
             "protocol": payload.get("protocol", "demo-announcement"),
+            "first_seen": format_timestamp(now),
             "last_seen": now,
             "announcement_count": 1,
         }
@@ -83,7 +87,7 @@ if __name__ == "__main__":
     print("\nDiscovered devices:")
     for device in devices:
         print(
-            f"- {device['friendly_name']} "
+            f"[{device['first_seen']}] {device['friendly_name']} "
             f"({device['ip']}:{device['port']}) "
             f"[announcements: {device['announcement_count']}]"
         )

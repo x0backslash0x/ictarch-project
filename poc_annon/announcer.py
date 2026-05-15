@@ -18,6 +18,10 @@ if len(sys.argv) == 4:
     TARGET_PORT = int(sys.argv[2])
     INTERVAL_SECONDS = int(sys.argv[3])
 
+def format_timestamp(epoch_seconds):
+    local_time = time.localtime(epoch_seconds)
+    return time.strftime("%M:%S", local_time)
+
 devices = [
     {
         "device_id": "device-light-001",
@@ -56,6 +60,6 @@ while True:
     device = devices[device_index]
     payload = json.dumps(device).encode("utf-8")
     sock.sendto(payload, (TARTGET_IP, TARGET_PORT))
-    print(f"Announcement sent: {device['friendly_name']}")
+    print(f"[{format_timestamp(time.time())}] Announcement sent: {device['friendly_name']}")
     device_index = (device_index + 1) % len(devices)
     time.sleep(INTERVAL_SECONDS)
