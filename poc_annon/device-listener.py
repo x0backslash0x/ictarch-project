@@ -5,10 +5,18 @@ import json
 import time
 import sys
 
-# default timeout #
+# defaults #
+HOST = "127.0.0.1"
+PORT = 4002
 TIMEOUT = 10
-if sys.argv[1] == "--timeout":
-    TIMEOUT = float(sys.argv[2])
+
+if sys.argv[1] == "-h":
+    print("argumenten: <host> <port> <timeout>")
+    sys.exit()
+if len(sys.argv) == 4:
+    TARTGET_IP = sys.argv[1]
+    TARGET_PORT = int(sys.argv[2])
+    TIMEOUT = float(sys.argv[3])
 
 
 class AnnouncementDiscovery:

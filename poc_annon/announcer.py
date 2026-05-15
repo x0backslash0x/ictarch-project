@@ -3,10 +3,20 @@
 import socket
 import json
 import time
+import sys
 
+# defaults #
+INTERVAL_SECONDS = 3
 TARTGET_IP = "127.0.0.1"
 TARGET_PORT = 4002
-INTERVAL_SECONDS = 3
+
+if sys.argv[1] == "-h":
+    print("argumenten: <host> <port> <interval>")
+    sys.exit()
+if len(sys.argv) == 4:
+    TARTGET_IP = sys.argv[1]
+    TARGET_PORT = int(sys.argv[2])
+    INTERVAL_SECONDS = int(sys.argv[3])
 
 devices = [
     {
@@ -37,7 +47,8 @@ devices = [
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
 
-print("Starting announcement sender...")
+#print("Starting announcement sender...")
+print(f"Sending announcements to {TARTGET_IP}:{TARGET_PORT} at {INTERVAL_SECONDS} second intervals ...")
 
 device_index = 0
 
