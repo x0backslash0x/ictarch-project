@@ -1,0 +1,31 @@
+services:
+  listener:
+    #container_name: "listener"
+    #build: ./listener
+    image: poc-device-discovery:latest
+    command: ["python", "device-listener.py", "0.0.0.0", "4002", "15"]
+    networks:
+      - discovery-net
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: none
+
+  announcer:
+    #container_name: "announcer"
+    #build: ./announcer
+    image: poc-device-discovery:latest
+    command: ["python", "announcer.py", "listener", "4002", "1"]
+    depends_on:
+      - listener
+    networks:
+      - discovery-net
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: none
+
+networks:
+  discovery-net:
+    driver: overlay
+    attachable: true

@@ -24,10 +24,11 @@ Er zijn verschillende services nodig binnen deze POC
 - 1 service die luisterd naar de announcements en ze verwerkt
 
 # gebruik
-1 listener starten en timeout instellen
-`python3 device-listener.py --timeout 20`
+```
+docker build -t poc-device-discovery:latest
+docker stack deploy -c poc.yaml device-discovery
 
-2 announcer starten
-`python3 announcer.py`
-
-3 na de timeout toont listener welke toestellen gevonden zijn
+# Na 15 seconden (timeout listener)
+docker service logs device-discovery_announcer
+docker service logs device-discovery_listener
+```
