@@ -1,0 +1,9 @@
+services:
+  scenario-poc:
+    image: scenario-poc:latest
+
+    ports:
+      - "5000:5000"
+
+    deploy:
+      replicas: 1
