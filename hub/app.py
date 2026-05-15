@@ -1,54 +1,49 @@
-"""
-POC: Authenticatie als Plugin in een Microkernel architectuur
-============================================================
-De kern (hub) biedt basisfunctionaliteit: apparaten aansturen.
-Authenticatie is GEEN deel van de kern, maar een optionele plugin.
-De kern laadt de plugin dynamisch als die aanwezig is.
-"""
-
 import importlib
 import os
 from flask import Flask, request, jsonify, render_template, redirect, url_for, session
 
 app = Flask(__name__)
-app.secret_key = "poc-secret-key"
+app.secret_key = "poc-secret-key"  # gewoon iets simpels voor sessies
 
-# ── Plugin loader ────────────────────────────────────────────────────────────
-# De kern weet NIET hoe authenticatie werkt.
-# Hij vraagt enkel aan een plugin: "mag deze gebruiker verder?"
 
 def load_auth_plugin():
-    """Laad de auth-plugin als die beschikbaar is. Geeft None terug als er geen plugin is."""
+    """Kijk of de auth plugin bestaat en laad hem dan."""
     plugin_path = "/hub/plugins/auth_plugin.py"
     if not os.path.exists(plugin_path):
-        print("[KERN] Geen auth-plugin gevonden. Hub werkt zonder authenticatie.")
+        print("[KERN] Geen auth plugin gevonden → hub draait zonder login.")
         return None
+
     spec = importlib.util.spec_from_file_location("auth_plugin", plugin_path)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
-    print("[KERN] Auth-plugin geladen:", plugin_path)
+    print("[KERN] Auth plugin geladen.")
     return module
 
 auth_plugin = load_auth_plugin()
 
+
+def plugin_enabled():
+    """Kijken of de plugin aan of uit staat (standaard aan)."""
+    return session.get("plugin_enabled", True)
+
 def is_authenticated():
-    """Vraag aan de plugin of de huidige request geauthenticeerd is.
-    Als er geen plugin is: altijd True (open systeem)."""
+    """Als plugin uit staat → iedereen mag binnen."""
+    if not plugin_enabled():
+        return True
     if auth_plugin is None:
         return True
     return auth_plugin.is_authenticated(session)
 
 def require_auth(f):
-    """Decorator: blokkeert toegang als de plugin zegt 'nee'."""
+    """Decorator die checkt of je ingelogd bent als de plugin aan staat."""
     from functools import wraps
     @wraps(f)
-    def decorated(*args, **kwargs):
+    def wrapper(*args, **kwargs):
         if not is_authenticated():
             return redirect(url_for("login_page"))
         return f(*args, **kwargs)
-    return decorated
+    return wrapper
 
-# ── Gesimuleerde apparaten (de echte kernfunctionaliteit) ────────────────────
 
 devices = {
     "lamp_woonkamer": {"naam": "Lamp Woonkamer", "status": "uit"},
@@ -56,12 +51,11 @@ devices = {
     "rolluik_slaap":  {"naam": "Rolluik Slaapkamer", "status": "open"},
 }
 
-# ── Routes ───────────────────────────────────────────────────────────────────
 
 @app.route("/")
 @require_auth
 def index():
-    plugin_actief = auth_plugin is not None
+    plugin_actief = plugin_enabled() and auth_plugin is not None
     gebruiker = session.get("gebruiker", "Anoniem")
     return render_template("index.html",
                            devices=devices,
@@ -79,36 +73,47 @@ def toggle_device(device_id):
 
 @app.route("/status")
 def status():
-    """Publiek endpoint: toont of de auth-plugin actief is."""
+    """Gewoon om te zien of de plugin actief is."""
     return jsonify({
-        "auth_plugin_actief": auth_plugin is not None,
+        "auth_plugin_actief": plugin_enabled() and auth_plugin is not None,
         "plugin_naam": getattr(auth_plugin, "PLUGIN_NAAM", None),
     })
 
-# ── Login/logout routes — alleen actief als plugin die afhandelt ─────────────
 
 @app.route("/login", methods=["GET"])
 def login_page():
-    if auth_plugin is None:
+    # Als plugin uit staat → login overslaan
+    if not plugin_enabled() or auth_plugin is None:
         return redirect(url_for("index"))
-    return render_template("login.html")
+    return render_template("login.html",
+                           plugin_actief=plugin_enabled())
 
 @app.route("/login", methods=["POST"])
 def login_submit():
-    if auth_plugin is None:
+    if not plugin_enabled() or auth_plugin is None:
         return redirect(url_for("index"))
+
     gebruikersnaam = request.form.get("gebruikersnaam", "")
     wachtwoord = request.form.get("wachtwoord", "")
     ok, boodschap = auth_plugin.login(session, gebruikersnaam, wachtwoord)
+
     if ok:
         return redirect(url_for("index"))
-    return render_template("login.html", fout=boodschap)
+    return render_template("login.html", fout=boodschap, plugin_actief=True)
 
 @app.route("/logout")
 def logout():
-    if auth_plugin:
+    if auth_plugin and plugin_enabled():
         auth_plugin.logout(session)
     return redirect(url_for("login_page"))
+
+
+@app.route("/toggle_plugin")
+def toggle_plugin():
+    huidige = session.get("plugin_enabled", True)
+    session["plugin_enabled"] = not huidige
+    return redirect(url_for("login_page"))
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

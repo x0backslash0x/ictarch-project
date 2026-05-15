@@ -1,4 +1,3 @@
-<!-- hub/templates/index.html -->
 <!doctype html>
 <html lang="nl">
 <head>
@@ -7,6 +6,7 @@
 </head>
 <body>
   <h1>Smart Home Hub</h1>
+
   <p>Gebruiker: {{ gebruiker }}</p>
   <p>Auth plugin actief: {{ 'Ja' if plugin_actief else 'Nee' }}</p>
 
@@ -25,5 +25,18 @@
   {% if plugin_actief %}
     <p><a href="{{ url_for('logout') }}">Uitloggen</a></p>
   {% endif %}
+
+  <hr>
+
+  <p>
+    Plugin status: <strong>{{ 'AAN' if plugin_actief else 'UIT' }}</strong>
+  </p>
+
+  <form action="{{ url_for('toggle_plugin') }}" method="get">
+    <button type="submit">
+      {{ 'Plugin uitschakelen' if plugin_actief else 'Plugin inschakelen' }}
+    </button>
+  </form>
+
 </body>
 </html>

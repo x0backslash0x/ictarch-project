@@ -1,67 +1,74 @@
-POC Authenticatie als plugin: 
-POC — Authenticatie als Plugin (Microkernel)
+POC – Authenticatie als Plugin (Microkernel Architectuur)
 
-Doel
+Deze POC toont hoe je authenticatie als losse plugin kunt toevoegen aan een microkernel‑architectuur.  
+De hub zelf blijft heel simpel: hij stuurt apparaten aan.  
+De login‑functionaliteit zit volledig in een aparte plugin die je aan of uit kunt zetten.
 
-Deze POC test of authenticatie als plugin kan werken binnen een microkernel architectuur in plaats van dat het vast in de kern zit.
+De kern hoeft dus nooit aangepast te worden, wat precies het idee is van een microkernel.
 
-De conclusie is dat dit kan. De hub werkt zowel met als zonder auth plugin en de kern hoeft daarvoor niet aangepast te worden.
-
-Structuur
+Wat deze POC laat zien
+- De hub werkt met authenticatie (login verplicht)
+- De hub werkt zonder authenticatie (open systeem)
+- De plugin kan runtime aan/uit gezet worden via de loginpagina
+- De kern blijft altijd hetzelfde
+- Dit past bij ADR‑009 (microkernel met uitbreidbare plugins)
 
 poc-auth-plugin/
-
-* hub (microkernel kern)
-
-  * app.py (laadt plugins dynamisch)
-  * plugins/
-
-    * auth_plugin.py
-  * templates/
-
-    * index.html
-    * login.html
-  * Dockerfile
-  * requirements.txt
-* app (client die een mobiele app simuleert)
-
-  * app.py
-  * Dockerfile
-  * requirements.txt
-* docker-compose.yml
+│
+├── hub/                     
+│   ├── app.py               
+│   ├── plugins/
+│   │   └── auth_plugin.py   
+│   ├── templates/
+│   │   ├── index.html
+│   │   └── login.html       
+│   ├── Dockerfile
+│   └── requirements.txt
+│
+├── app/                      
+│   ├── app.py
+│   ├── Dockerfile
+│   └── requirements.txt
+│
+└── docker-compose.yml
 
 Starten
-Vereisten
+Vereisten:
+- Docker
+- Docker Compose
 
-* Docker en Docker Compose geïnstalleerd op Debian
-Met auth plugin (login actief)
+Start alles:
 docker compose up --build
 
-Ga naar [http://localhost:5000](http://localhost:5000) in je browser
-Je krijgt een login scherm met
-* admin / admin123
-* jan / smarthome
+Ga naar:
+http://localhost:5000
 
-Zonder auth plugin (open modus)
+Authenticatie plugin
 
-In docker-compose.yml dit stuk uit commentaar zetten:
-* ./hub/plugins:/hub/plugins
+Standaard staat de plugin aan, dus je krijgt een loginpagina.
 
-Daarna opnieuw starten:
-docker compose up --build
+Je kunt inloggen met:
+- admin / admin123
+- jan / smarthome
 
-Ga opnieuw naar [http://localhost:5000](http://localhost:5000)
-Nu kom je direct binnen zonder login omdat de plugin niet geladen wordt
+login aan/uit zetten (NIEUW)
+Op de loginpagina staat een knop:
 
-Wat dit bewijst
-* de kern werkt zonder auth plugin
-* de kern werkt met auth plugin
-* de kern hoeft niet aangepast te worden
-* de auth functionaliteit zit volledig los van de kern
+- Plugin uitschakelen → login verdwijnt, iedereen mag binnen  
+- Plugin inschakelen → login wordt weer verplicht  
 
-Dit past bij ADR-009 microkernel architectuur waarbij plugins los staan van de kern en je makkelijk functionaliteit kan toevoegen of verwijderen zonder de core te veranderen
+Dit werkt meteen, zonder herstarten en zonder docker‑compose aan te passen.
+De status wordt bijgehouden in de sessie.
+
+Waarom dit microkernel is
+- De kern (hub) weet niet hoe authenticatie werkt  
+- De plugin wordt dynamisch geladen  
+- De plugin kan verwijderd, vervangen of uitgezet worden  
+- De kern blijft altijd hetzelfde  
+
 
 Technologie
-* Python 3.11 op Debian 12
-* Flask
-* Docker en Docker Compose
+- Python 3.11
+- Flask
+- Docker & Docker Compose
+- Microkernel architectuur met dynamische plugin‑loading
