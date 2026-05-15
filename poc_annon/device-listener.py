@@ -6,16 +6,16 @@ import time
 import sys
 
 # defaults #
-HOST = "127.0.0.1"
-PORT = 4002
+LISTEN_HOST = "127.0.0.1"
+LISTEN_PORT = 4002
 TIMEOUT = 10
 
 if sys.argv[1] == "-h":
     print("argumenten: <host> <port> <timeout>")
     sys.exit()
 if len(sys.argv) == 4:
-    TARTGET_IP = sys.argv[1]
-    TARGET_PORT = int(sys.argv[2])
+    LISTEN_HOST = sys.argv[1]
+    LISTEN_PORT = int(sys.argv[2])
     TIMEOUT = float(sys.argv[3])
 
 def format_timestamp(epoch_seconds):
@@ -58,15 +58,12 @@ class AnnouncementDiscovery:
         }
 
     def run(self):
-        host = "127.0.0.1"
-        port = 4002
-
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        sock.bind((host, port))
+        sock.bind((LISTEN_HOST, LISTEN_PORT))
         sock.settimeout(0.5)
 
         start = time.time()
-        print(f"Listening for announcements on {host}:{port} for {self.timeout_seconds} seconds...")
+        print(f"Listening for announcements on {LISTEN_HOST}:{LISTEN_PORT} for {self.timeout_seconds} seconds...")
 
         while time.time() - start < self.timeout_seconds:
             try:
