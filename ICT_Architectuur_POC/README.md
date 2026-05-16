@@ -42,20 +42,15 @@ Binnen het framework van software-architectuur valideert deze PoC specifiek de v
 Volg deze stappen om de PoC binnen een minuut lokaal op te starten en te verifiëren:
 
 ### Stap 1: Navigeer naar de juiste directory
-```bash
-
 cd ICT_Architectuur_POC/poc-smarthome
-### Stap 2: Initialiseer Docker Swarm (indien nog niet actief)
-```bash
 
+### Stap 2: Initialiseer Docker Swarm (indien nog niet actief)
 docker swarm init
+
 ### Stap 3: Deploy de applicatiestack
 Breng de services online binnen het Swarm-cluster met behulp van de configuratie:
-
-```bash
 docker stack deploy -c docker-compose.yml smarthome_poc
+
 ### Stap 4: Controleer de status van de services
 Verifieer dat alle containers correct zijn opgestart en actief draaien:
-
-```bash
 docker service ls
