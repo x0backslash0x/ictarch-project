@@ -30,7 +30,7 @@ De architectuur is opgedeeld in drie heldere, logische componenten om een strikt
 ## 4. Architectonische Karakteristieken
 Binnen het framework van software-architectuur valideert deze PoC specifiek de zeven vastgestelde kwaliteitsattributen (Quality Attributes) uit ons onderzoek[cite: 436, 492, 508]:
 
-* **Usability (Gebruiksvriendelijkheid):** Zorgt voor een eenvoudige, consistente UI en een gepersonaliseerde ervaring waarbij instellingen stabiel bewaard blijven voor de bewoner[cite: 671, 727, 775].
+* **Usability (Gebruiksvriendelijkheid):** Zorgt voor een eenvoudige, consistente UI en een gepersonaliseerde ervaring waarbij instellingen stabiel bewaard blijven voor de bewoner.
 * **Interoperability (Interoperabiliteit):** Garandeert dat apparaten van verschillende merken en protocollen (via zowel *probe* als *announcement* gebaseerde discovery) succesvol met elkaar kunnen communiceren.
 * **Configurability (Configureerbaarheid):** Maakt het voor de gebruiker mogelijk om de status van apparaten, ruimtes en scenario's/automatisaties naar eigen voorkeur flexibel in te richten.
 * **Security (Beveiliging):** Biedt netwerkisolatie op container-niveau en veilige authenticatie via een login, waardoor componenten minder afhankelijk van elkaar zijn en de kans op misbruik minimaal is.
