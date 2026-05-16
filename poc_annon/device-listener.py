@@ -63,7 +63,7 @@ class AnnouncementDiscovery:
         sock.settimeout(0.5)
 
         start = time.time()
-        print(f"Listening for announcements on {LISTEN_HOST}:{LISTEN_PORT} for {self.timeout_seconds} seconds...")
+        print(f"[{format_timestamp(time.time())}] Listening for announcements on {LISTEN_HOST}:{LISTEN_PORT} for {self.timeout_seconds} seconds...")
 
         while time.time() - start < self.timeout_seconds:
             try:
@@ -77,7 +77,6 @@ class AnnouncementDiscovery:
 
 
 if __name__ == "__main__":
-    ## BUG: waarom hier ook timeout instellen als dat bovenaan al gedaan wordt?
     discovery = AnnouncementDiscovery(timeout_seconds=TIMEOUT)
     devices = discovery.run()
 
@@ -88,3 +87,8 @@ if __name__ == "__main__":
             f"({device['ip']}:{device['port']}) "
             f"[announcements: {device['announcement_count']}]"
         )
+
+    print(f"\n[{format_timestamp(time.time())}] No longer listening for announcements")
+    while True:
+        time.sleep(3600)
+
