@@ -1,9 +1,10 @@
 from flask import Flask, jsonify, request, render_template
+from datetime import datetime
 
 app = Flask(__name__)
 
 devices = ["lamp", "thermostaat"]
-last_command = {"status": "geen commando"}
+last_command = {"status": "geen commando", "time": None}
 
 @app.get("/")
 def home():
@@ -17,7 +18,11 @@ def get_devices():
 def command():
     data = request.get_json(force=True)
     global last_command
-    last_command = {"status": "ontvangen", "data": data}
-    return jsonify({"status": "ok", "received": data})
+    last_command = {
+        "status": "ontvangen",
+        "data": data,
+        "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    }
+    return jsonify({"status": "ok", "received": data, "time": last_command["time"]})
 
 app.run(host="0.0.0.0", port=5000)
