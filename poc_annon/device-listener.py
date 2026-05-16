@@ -18,9 +18,6 @@ if len(sys.argv) == 4:
     LISTEN_PORT = int(sys.argv[2])
     TIMEOUT = float(sys.argv[3])
 
-def format_timestamp(epoch_seconds):
-    local_time = time.localtime(epoch_seconds)
-    return time.strftime("%M:%S", local_time)
 
 class AnnouncementDiscovery:
     def __init__(self, timeout_seconds=TIMEOUT):
@@ -33,7 +30,9 @@ class AnnouncementDiscovery:
         except Exception:
             return
 
-        stable_id = payload.get("device_id")
+        annoucement_id = payload.get("announcement_id")
+        device = payload.get("device", {})
+        stable_id = device.get("device_id")
         if not stable_id:
             return
 
@@ -47,13 +46,13 @@ class AnnouncementDiscovery:
 
         self.devices[stable_id] = {
             "stable_id": stable_id,
-            "friendly_name": payload.get("friendly_name"),
-            "device_type": payload.get("device_type"),
-            "ip": payload.get("ip") or addr[0],
-            "port": payload.get("port"),
-            "protocol": payload.get("protocol", "demo-announcement"),
-            "first_seen": format_timestamp(now),
+            "friendly_name": device.get("friendly_name"),
+            "device_type": device.get("device_type"),
+            "ip": device.get("ip") or addr[0],
+            "port": device.get("port"),
+            "protocol": device.get("protocol", "demo-announcement"),
             "last_seen": now,
+            "announcement_id": annoucement_id,
             "announcement_count": 1,
         }
 
@@ -63,7 +62,7 @@ class AnnouncementDiscovery:
         sock.settimeout(0.5)
 
         start = time.time()
-        print(f"[{format_timestamp(time.time())}] Listening for announcements on {LISTEN_HOST}:{LISTEN_PORT} for {self.timeout_seconds} seconds...")
+        print(f"Listening for announcements on {LISTEN_HOST}:{LISTEN_PORT} for {self.timeout_seconds} seconds...")
 
         while time.time() - start < self.timeout_seconds:
             try:
@@ -83,12 +82,12 @@ if __name__ == "__main__":
     print("\nDiscovered devices:")
     for device in devices:
         print(
-            f"[{device['first_seen']}] {device['friendly_name']} "
+            f"[{device['announcement_id']}] {device['friendly_name']} "
             f"({device['ip']}:{device['port']}) "
             f"[announcements: {device['announcement_count']}]"
         )
 
-    print(f"\n[{format_timestamp(time.time())}] No longer listening for announcements")
+    print(f"\nNo longer listening for announcements")
     while True:
         time.sleep(3600)
 

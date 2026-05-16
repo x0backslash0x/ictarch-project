@@ -1,6 +1,6 @@
 services:
   listener:
-    image: x0backslash0x/poc_device-discovery:v1.1
+    image: x0backslash0x/poc_device-discovery:v1.2
     # output buffering zodat prints sneller in service logs te zien zijn
     command: ["python", "-u", "device-listener.py", "0.0.0.0", "4002", "15"]
     networks:
@@ -11,7 +11,7 @@ services:
         condition: none
 
   announcer:
-    image: x0backslash0x/poc_device-discovery:v1.1
+    image: x0backslash0x/poc_device-discovery:v1.2
     # output buffering zodat prints sneller in service logs te zien zijn
     command: ["python", "-u", "announcer.py", "listener", "4002", "1"]
     depends_on:

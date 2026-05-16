@@ -18,9 +18,6 @@ if len(sys.argv) == 4:
     TARGET_PORT = int(sys.argv[2])
     INTERVAL_SECONDS = int(sys.argv[3])
 
-def format_timestamp(epoch_seconds):
-    local_time = time.localtime(epoch_seconds)
-    return time.strftime("%M:%S", local_time)
 
 devices = [
     {
@@ -29,7 +26,6 @@ devices = [
         "device_type": "light",
         "ip": "192.168.1.50",
         "port": 12345,
-        "protocol": "demo-announcement"
     },
     {
         "device_id": "device-thermostat-001",
@@ -37,7 +33,6 @@ devices = [
         "device_type": "thermostat",
         "ip": "192.168.1.51",
         "port": 12346,
-        "protocol": "demo-announcement"
     },
     {
         "device_id": "device-speaker-001",
@@ -45,21 +40,27 @@ devices = [
         "device_type": "speaker",
         "ip": "192.168.1.52",
         "port": 12347,
-        "protocol": "demo-announcement"
     }
 ]
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
 
-#print("Starting announcement sender...")
 print(f"Sending announcements to {TARTGET_IP}:{TARGET_PORT} at {INTERVAL_SECONDS} second intervals ...")
 
 device_index = 0
+announcement_id = 1
 
 while True:
     device = devices[device_index]
-    payload = json.dumps(device).encode("utf-8")
+    announcement = {
+        "announcement_id": announcement_id,
+        "device": {
+            **device
+        }
+    }
+    payload = json.dumps(announcement).encode("utf-8")
     sock.sendto(payload, (TARTGET_IP, TARGET_PORT))
-    print(f"[{format_timestamp(time.time())}] Announcement sent: {device['friendly_name']}")
+    print(f"Announcement [{announcement['announcement_id']}] sent: {device['friendly_name']}")
     device_index = (device_index + 1) % len(devices)
     time.sleep(INTERVAL_SECONDS)
+    announcement_id += 1
