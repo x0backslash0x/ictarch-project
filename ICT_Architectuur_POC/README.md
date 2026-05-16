@@ -42,6 +42,7 @@ Binnen het framework van software-architectuur valideert deze PoC specifiek de v
 Volg deze stappen om de PoC binnen een minuut lokaal op te starten en te verifiëren:
 
 ### Stap 1: Navigeer naar de juiste directory
+```bash
 cd ICT_Architectuur_POC/poc-smarthome
 
 ### Stap 2: Initialiseer Docker Swarm (indien nog niet actief)
