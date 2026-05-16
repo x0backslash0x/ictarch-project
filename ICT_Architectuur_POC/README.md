@@ -28,12 +28,15 @@ De architectuur is opgedeeld in drie heldere, logische componenten om een strikt
 ---
 
 ## 4. Architectonische Karakteristieken
-Binnen het framework van software-architectuur valideert deze PoC specifiek de volgende kwaliteitsattributen (Quality Attributes):
+Binnen het framework van software-architectuur valideert deze PoC specifiek de zeven vastgestelde kwaliteitsattributen (Quality Attributes) uit ons onderzoek[cite: 436, 492, 508]:
 
-*   **Deployability (Implementeerbaarheid):** Dankzij de containerisatie is de complete stack met één enkel commando consistent en herhaalbaar op te spinnen in een schone omgeving.
-*   **Modularity (Modulariteit):** De App en de Hub zijn volledig ontkoppeld. Wijzigingen in de frontend-interface (`app.py`) hebben geen directe impact op de core-logica van de Hub (`hub/app.py`).
-*   **Security (Beveiliging):** Netwerkisolatie op container-niveau. De Hub is niet direct vanaf de buitenwereld bereikbaar, maar uitsluitend via de gecontroleerde API-gateway van de App-container.
-*   **Performance (Efficiëntie):** Door het weglaten van zware authenticatielagen en database-lookups is de transactiesnelheid voor lokale configuraties gemaximaliseerd (low latency).
+* **Usability (Gebruiksvriendelijkheid):** Zorgt voor een eenvoudige, consistente UI en een gepersonaliseerde ervaring waarbij instellingen stabiel bewaard blijven voor de bewoner[cite: 671, 727, 775].
+* **Interoperability (Interoperabiliteit):** Garandeert dat apparaten van verschillende merken en protocollen (via zowel *probe* als *announcement* gebaseerde discovery) succesvol met elkaar kunnen communiceren.
+* **Configurability (Configureerbaarheid):** Maakt het voor de gebruiker mogelijk om de status van apparaten, ruimtes en scenario's/automatisaties naar eigen voorkeur flexibel in te richten.
+* **Security (Beveiliging):** Biedt netwerkisolatie op container-niveau en veilige authenticatie via een login, waardoor componenten minder afhankelijk van elkaar zijn en de kans op misbruik minimaal is.
+* **Maintainability (Onderhoudbaarheid):** De codebasis is modulair opgebouwd met een duidelijke scheiding van logica, wat leidt tot eenvoudiger onderhoud en herbruikbare componenten zonder duplicatie.
+* **Reliability (Betrouwbaarheid):** Tijdgestuurde acties en apparaatontdekking zijn redundant en onafhankelijk opgezet, waardoor het uitvallen van één onderdeel de rest van het basissysteem niet platlegt.
+* **Performance (Efficiëntie):** Door de minimale datastructuur en het weglaten van zware cloud-lookups is er minder netwerkoverhead, wat resulteert in maximale transactiesnelheid en een snelle respons.
 
 ---
 
