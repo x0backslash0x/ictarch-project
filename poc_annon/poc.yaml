@@ -2,7 +2,7 @@ services:
   listener:
     #container_name: "listener"
     #build: ./listener
-    image: poc-device-discovery:latest
+    image: x0backslash0x/poc_device-discovery:latest
     command: ["python", "device-listener.py", "0.0.0.0", "4002", "15"]
     networks:
       - discovery-net
@@ -14,7 +14,7 @@ services:
   announcer:
     #container_name: "announcer"
     #build: ./announcer
-    image: poc-device-discovery:latest
+    image: x0backslash0x/poc_device-discovery:latest
     command: ["python", "announcer.py", "listener", "4002", "1"]
     depends_on:
       - listener
