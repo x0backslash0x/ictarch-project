@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  hub:
+    build: ./hub
+    image: hub:latest
+    ports:
+      - "5000:5000"
+    networks:
+      - smarthome-net
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  app:
+    build: ./app
+    image: app:latest
+    environment:
+      - HUB_URL=http://hub:5000
+    networks:
+      - smarthome-net
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+
+networks:
+  smarthome-net:
+    driver: overlay
