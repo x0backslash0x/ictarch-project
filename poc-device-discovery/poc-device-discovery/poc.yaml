@@ -1,0 +1,93 @@
+services:
+
+  # ── Hub ───────────────────────────────────────────────────────
+  # Blijft actief maar start de scan NIET automatisch.
+  # Start de scan via:
+  #   docker exec -it $(docker ps -qf name=poc_hub) python hub_discovery.py
+
+  hub:
+    image: xandropalomo03/poc-hub:latest
+    networks:
+      - discovery_net
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+      restart_policy:
+        condition: on-failure
+
+  # ── Apparaten ─────────────────────────────────────────────────
+  # Starten automatisch en luisteren op probe requests.
+  # Verwijder een apparaat: docker service scale poc_device_lamp=0
+  # Breng terug:            docker service scale poc_device_lamp=1
+
+  device_lamp:
+    image: xandropalomo03/poc-device:latest
+    networks:
+      - discovery_net
+    environment:
+      - DEVICE_NAME=Philips Hue Lamp
+      - DEVICE_MAC=AA:BB:CC:11:22:01
+      - DEVICE_TYPE=lamp
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: none
+
+  device_sensor:
+    image: xandropalomo03/poc-device:latest
+    networks:
+      - discovery_net
+    environment:
+      - DEVICE_NAME=IKEA Bewegingssensor
+      - DEVICE_MAC=AA:BB:CC:11:22:02
+      - DEVICE_TYPE=sensor
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: none
+
+  device_lock:
+    image: xandropalomo03/poc-device:latest
+    networks:
+      - discovery_net
+    environment:
+      - DEVICE_NAME=Nuki Slim Slot
+      - DEVICE_MAC=AA:BB:CC:11:22:03
+      - DEVICE_TYPE=slot
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: none
+
+  device_thermostat:
+    image: xandropalomo03/poc-device:latest
+    networks:
+      - discovery_net
+    environment:
+      - DEVICE_NAME=Nest Thermostaat
+      - DEVICE_MAC=AA:BB:CC:11:22:04
+      - DEVICE_TYPE=thermostaat
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: none
+
+  device_speaker:
+    image: xandropalomo03/poc-device:latest
+    networks:
+      - discovery_net
+    environment:
+      - DEVICE_NAME=Sonos Speaker
+      - DEVICE_MAC=AA:BB:CC:11:22:05
+      - DEVICE_TYPE=speaker
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: none
+
+networks:
+  discovery_net:
+    driver: overlay
+    attachable: true
