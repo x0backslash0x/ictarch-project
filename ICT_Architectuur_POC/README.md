@@ -45,15 +45,15 @@ Volg deze stappen om de PoC binnen een minuut lokaal op te starten en te verifi√
 
 ### Handleiding en Commando's
 
-# Stap 1: Navigeer naar de juiste directory
+#### Stap 1: Navigeer naar de juiste directory
 `cd ICT_Architectuur_POC/poc-smarthome`
 
-# Stap 2: Initialiseer Docker Swarm (indien nog niet actief)
+#### Stap 2: Initialiseer Docker Swarm (indien nog niet actief)
 `docker swarm init`
 
-# Stap 3: Deploy de applicatiestack binnen het Swarm-cluster
+#### Stap 3: Deploy de applicatiestack binnen het Swarm-cluster
 `docker stack deploy -c docker-compose.yml smarthome_poc`
 
-# Stap 4: Controleer de status van de opgestarte services
+#### Stap 4: Controleer de status van de opgestarte services
 `docker service ls`
 
