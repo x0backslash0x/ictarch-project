@@ -1,9 +1,8 @@
 services:
   listener:
-    #container_name: "listener"
-    #build: ./listener
     image: x0backslash0x/poc_device-discovery:v1.1
-    command: ["python", "device-listener.py", "0.0.0.0", "4002", "15"]
+    # output buffering zodat prints sneller in service logs te zien zijn
+    command: ["python", "-u", "device-listener.py", "0.0.0.0", "4002", "15"]
     networks:
       - discovery-net
     deploy:
@@ -12,10 +11,9 @@ services:
         condition: none
 
   announcer:
-    #container_name: "announcer"
-    #build: ./announcer
     image: x0backslash0x/poc_device-discovery:v1.1
-    command: ["python", "announcer.py", "listener", "4002", "1"]
+    # output buffering zodat prints sneller in service logs te zien zijn
+    command: ["python", "-u", "announcer.py", "listener", "4002", "1"]
     depends_on:
       - listener
     networks:
