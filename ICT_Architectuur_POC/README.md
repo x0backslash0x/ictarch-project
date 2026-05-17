@@ -39,21 +39,34 @@ Binnen het framework van software-architectuur valideert deze PoC specifiek de z
 
 ---
 
-## 5. Deployment Handleiding (Reproductiestappen)
+## 5. Functionaliteit
+- De hub geeft status terug via `/devices`.
+- De app kan de hub bereiken en data tonen.
+- De webinterface toont devices, status en het laatste commando.
+- De oplossing is bewust beperkt tot één gebruiker zonder admin-rollen.
 
-Volg deze stappen om de PoC binnen een minuut lokaal op te starten en te verifiëren:
+## 6. Deployment
+### 6.1. Vereisten
+- Docker
+- Docker Swarm actief
+- Internettoegang om images van Docker Hub te pullen
 
-### Handleiding en Commando's
+### 6.2. Stappen
+```bash
+cd ICT_Architectuur_POC/poc-smarthome
+docker swarm init --advertise-addr 172.31.230.19
+docker network create --driver overlay --attachable smarthome
+docker stack deploy -c docker-compose.yml smarthome
+```
 
-#### Stap 1: Navigeer naar de juiste directory
-`cd ICT_Architectuur_POC/poc-smarthome`
+### 6.3. Controle
+```bash
+docker service ls
+docker stack ps smarthome
+docker service logs smarthome_hub
+docker service logs smarthome_app
+```
 
-#### Stap 2: Initialiseer Docker Swarm (indien nog niet actief)
-`docker swarm init`
-
-#### Stap 3: Deploy de applicatiestack binnen het Swarm-cluster
-`docker stack deploy -c docker-compose.yml smarthome_poc`
-
-#### Stap 4: Controleer de status van de opgestarte services
-`docker service ls`
-
+### 6.4. Browser
+- Hub: `http://172.31.230.19:5000`
+- App: `http://172.31.230.19:5001`
