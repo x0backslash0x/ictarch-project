@@ -7,8 +7,6 @@ services:
       - discovery-net
     deploy:
       replicas: 1
-      restart_policy:
-        condition: none
 
   announcer:
     image: x0backslash0x/poc_device-discovery:v1.2
@@ -20,8 +18,6 @@ services:
       - discovery-net
     deploy:
       replicas: 1
-      restart_policy:
-        condition: on_failure
 
 networks:
   discovery-net:
