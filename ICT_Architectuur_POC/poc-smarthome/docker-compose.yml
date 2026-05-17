@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   hub:
-    image: poc-hub:1.0
+    image: docker.io/kenujasatheeskumar94/poc-hub:1.0
     ports:
       - "5000:5000"
     deploy:
@@ -13,7 +13,7 @@ services:
       - smarthome
 
   app:
-    image: poc-app:1.0
+    image: docker.io/kenujasatheeskumar94/poc-app:1.0
     ports:
       - "5001:5001"
     deploy:
@@ -25,4 +25,5 @@ services:
 
 networks:
   smarthome:
-    driver: overlay
+    external: true
+    name: smarthome
