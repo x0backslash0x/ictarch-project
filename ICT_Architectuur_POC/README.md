@@ -15,17 +15,7 @@ Het doel is om te laten zien hoe de applicatie lokaal werkt voor **één enkele,
 * **Microkernel-stijl:** De UI (App) en de core-logica (Hub/Kernel) zijn strikt gescheiden, waardoor de hub stabiel blijft draaien als de interface herstart.
 
 ## Architectuur
-
-┌────────────────────────────────────────────────────────┐
-│                      Web Browser                       │
-│                           │                            │
-│                           ▼                            │
-│     App Service (`/app` - Python/Flask Frontend)       │
-│                           │                            │
-│    (Interne API-calls over Docker Swarm Netwerk)       │
-│                           ▼                            │
-│     Hub Service (`/hub` - Centrale Kernel)             │
-└────────────────────────────────────────────────────────┘
+Web Browser ---> App Service (`/app` - Python/Flask Frontend) ---> (Interne API-calls over Docker Swarm Netwerk) ---> Hub Service (`/hub` - Centrale Kernel)  
 
 ## Starten
 
