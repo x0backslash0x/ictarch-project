@@ -15,11 +15,7 @@ Deze adr gaat over het kiezen van een architecturale stijl. Volgende vergelijkin
 
 **Modulaire Monoliet**
 - Adapters zitten ingebouwd. Vereist update van de app voor nieuwe integraties [interoperability-/maintainability-]
-- (2de dealbreaker benoemen)
-
-**Microkernel**
-- Adapters kunnen als plugins bestaan, los van de kern [interoperability+/maintainability+]
--Minder code door minimale kern [security+/maintainability+/performance+/reliability+]
+- Latente koppeling die zich voordoet als modulariteit doet op termijn de grenzen vervagen [maintainability-]
 
 **Microservices**
 - Moeilijk om consistente UX te garanderen [useability-] (wat wordt hiermee bedoeld?)
@@ -30,11 +26,16 @@ Er wordt gekozen voor een microkernel architectuur.
 
 
 # GEVOLGEN
-(moet nog aangevuld worden)
+## Voordelig
++ Adapters kunnen als plugins bestaan, los van de kern [interoperability+/maintainability+]
++ Minder code door minimale kern [security+/maintainability+/performance+/reliability+]
 
 
 # GOVERNANCE
-hoe ga je ervoer zorgen dat developers niet ineens toevoegingen doen die buiten de stijl vallen? (nog aan te vullen)
+**Eigenaar:** Domeinarchitect / Functioneel architect
+
+**Review moment:**
+- bij uitbreidingen of structurele aanpassingen van de kern
 
 
 # NOTITIES
