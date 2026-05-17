@@ -46,24 +46,24 @@ Het doel is om te laten zien hoe de applicatie lokaal werkt voor **één enkele,
 
 ### Handleiding en Commando's
 
-# Stap 1: Navigeer naar de juiste directory
+#### Stap 1: Navigeer naar de juiste directory
 ``cd ICT_Architectuur_POC/poc-smarthome``
 
-# Stap 2: Initialiseer Docker Swarm (indien nog niet actief)
-docker swarm init --advertise-addr 172.31.230.19
+#### Stap 2: Initialiseer Docker Swarm (indien nog niet actief)
+``docker swarm init --advertise-addr 172.31.230.19``
 
-# Stap 3: Maak het overlay netwerk aan
-docker network create --driver overlay --attachable smarthome
+#### Stap 3: Maak het overlay netwerk aan
+``docker network create --driver overlay --attachable smarthome``
 
-# Stap 4: Deploy de applicatiestack binnen het Swarm-cluster
-docker stack deploy -c docker-compose.yml smarthome
+#### Stap 4: Deploy de applicatiestack binnen het Swarm-cluster
+``docker stack deploy -c docker-compose.yml smarthome``
 
-# Stap 5: Controleer de status van de opgestarte services
-docker service ls
+#### Stap 5: Controleer de status van de opgestarte services
+``docker service ls``
 
-## Browser openen
-1) Hub (Kernel Dashboard): http://172.31.230.19:5000
-2) App (Gebruikersinterface): http://172.31.230.19:5001
+#### Browser openen
+1) Hub (Kernel Dashboard): ``http://172.31.230.19:5000``
+2) App (Gebruikersinterface): ``http://172.31.230.19:5001``
 
-## Stoppen
-docker stack rm smarthome
+#### Stoppen
+``docker stack rm smarthome``
