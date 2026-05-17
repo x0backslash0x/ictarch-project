@@ -22,7 +22,7 @@ Web Browser ---> App Service (`/app` - Python/Flask Frontend) ---> (Interne API-
 ### Handleiding en Commando's
 
 #### Stap 1: Navigeer naar de juiste directory
-``cd ICT_Architectuur_POC/poc-smarthome``
+``cd poc-smarthome``
 
 #### Stap 2: Initialiseer Docker Swarm (indien nog niet actief)
 ``docker swarm init --advertise-addr 172.31.230.19``
