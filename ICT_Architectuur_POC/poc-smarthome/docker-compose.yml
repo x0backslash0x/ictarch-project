@@ -25,5 +25,6 @@ services:
 
 networks:
   smarthome:
-    external: true
+    #external: true
+    driver: overlay
     name: smarthome
