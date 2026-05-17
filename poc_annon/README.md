@@ -23,11 +23,12 @@ Elke announcement heefd een eigen ID. Aan de hand van ID's kan vergeleken worden
 ![messages announcer](./poc_annon-messages_announcer.png)
 
 # gebruik
-```
-docker build -t poc-device-discovery:latest
-docker stack deploy -c poc.yaml device-discovery
+Service stack opzetten
 
-# Na 15 seconden (timeout listener)
+`docker stack deploy -c poc.yaml device-discovery`
+
+Service logs raadplegen (na verloop timeout venster [15sec])
+```
 docker service logs device-discovery_announcer
 docker service logs device-discovery_listener
 ```
