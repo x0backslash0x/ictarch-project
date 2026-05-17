@@ -1,5 +1,5 @@
 TITLE
-001 Lokaal vs Cloud vs Hybride
+002 Lokaal vs Cloud vs Hybride
 
 STATUS
 accepted

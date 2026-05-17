@@ -1,4 +1,4 @@
-# 003 Automatisaties opgebouwd bovenop scenario's
+# 006 Automatisaties opgebouwd bovenop scenario's
 
 ## Status
 Accepted

@@ -1,5 +1,5 @@
 TITLE
-006 lokaal aansturen van aparaten
+003 lokaal aansturen van aparaten
 
 STATUS
 accepted
