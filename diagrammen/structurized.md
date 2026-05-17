@@ -1,4 +1,4 @@
-workspace "Smart Home Systeem" "Architectuur voor een slim woning beheersysteem" {
+    workspace "Smart Home Systeem" "Architectuur voor een slim woning beheersysteem" {
 
     model {
 
