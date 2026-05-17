@@ -387,3 +387,12 @@ Ondersteuning voor meerdere woningen wordt later toegevoegd.
 ## Deployment
 ![deployment diagram](./diagrammen/Deployment-dark.svg)
 ![legende](./diagrammen/Deployment-dark-key.svg)
+
+# Proofs of concept
+Onderstaande tabel toont een overzicht van de proofs-of-concept die zijn opgesteld voor dit project. Meer informatie over een POC staat in de readme van de POC zelf
+
+| POC | map |
+| --- | --- |
+| Device discovery - announcement | ./poc_annon/ |
+| Device discovery - probe | ./poc-device-discovery/ |
+
