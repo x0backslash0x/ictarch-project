@@ -45,9 +45,9 @@ Het doel is om te laten zien hoe de applicatie lokaal werkt voor **één enkele,
 ## Starten
 
 ### Handleiding en Commando's
-```bash
+
 # Stap 1: Navigeer naar de juiste directory
-cd ICT_Architectuur_POC/poc-smarthome
+``cd ICT_Architectuur_POC/poc-smarthome``
 
 # Stap 2: Initialiseer Docker Swarm (indien nog niet actief)
 docker swarm init --advertise-addr 172.31.230.19
@@ -66,5 +66,4 @@ docker service ls
 2) App (Gebruikersinterface): http://172.31.230.19:5001
 
 ## Stoppen
-```bash
 docker stack rm smarthome
