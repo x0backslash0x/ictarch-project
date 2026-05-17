@@ -27,21 +27,6 @@ Het doel is om te laten zien hoe de applicatie lokaal werkt voor **één enkele,
 │     Hub Service (`/hub` - Centrale Kernel)             │
 └────────────────────────────────────────────────────────┘
 
-## Bestandsstructuur
-
-.
-├── app/
-│   ├── app.py           ← Frontend logica & API-requests naar de hub
-│   ├── Dockerfile
-│   └── requirements.txt
-├── hub/
-│   ├── app.py           ← Centrale Hub (Kernel) met status-endpoints
-│   ├── Dockerfile
-│   └── templates/
-│       └── index.html   ← Lokaal dashboard voor apparaatbeheer
-├── docker-compose.yml   ← Docker stack orchestratie-configuratie
-└── README.md
-
 ## Starten
 
 ### Handleiding en Commando's
