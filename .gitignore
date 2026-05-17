@@ -1,2 +1,10 @@
 *.swp
 venv
+__pycache__/
+*.pyc
+.env
+.venv/
+.DS_Store
+.docker/
+hub/__pycache__/
+app/__pycache__/

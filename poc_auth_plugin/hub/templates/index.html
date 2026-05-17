@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <title>Hub - Devices</title>
+</head>
+<body>
+  <h1>Smart Home Hub</h1>
+
+  <p>Gebruiker: {{ gebruiker }}</p>
+  <p>Auth plugin actief: {{ 'Ja' if plugin_actief else 'Nee' }}</p>
+
+  <h2>Apparaten</h2>
+  <ul>
+    {% for id, d in devices.items() %}
+      <li>
+        <strong>{{ d.naam }}</strong> — status: <span id="{{ id }}">{{ d.status }}</span>
+        <form action="{{ url_for('toggle_device', device_id=id) }}" method="post" style="display:inline;">
+          <button type="submit">Toggle</button>
+        </form>
+      </li>
+    {% endfor %}
+  </ul>
+
+  {% if plugin_actief %}
+    <p><a href="{{ url_for('logout') }}">Uitloggen</a></p>
+  {% endif %}
+
+  <hr>
+
+  <p>
+    Plugin status: <strong>{{ 'AAN' if plugin_actief else 'UIT' }}</strong>
+  </p>
+
+  <form action="{{ url_for('toggle_plugin') }}" method="get">
+    <button type="submit">
+      {{ 'Plugin uitschakelen' if plugin_actief else 'Plugin inschakelen' }}
+    </button>
+  </form>
+
+</body>
+</html>

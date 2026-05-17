@@ -1,0 +1,62 @@
+version: "3.8"
+services:
+  hub:
+    image: quinxa/smarthome-hub:latest
+    ports:
+      - "5000:5000"
+    networks:
+      - smarthome-net
+    volumes:
+      - hub-plugins:/hub/plugins
+    environment:
+      - FLASK_ENV=production
+    deploy:
+      replicas: 3                        
+      # placement:                       
+      #   constraints:
+      #     - node.role == manager       
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+      update_config:
+        parallelism: 1                   
+        delay: 10s
+        failure_action: rollback
+      labels:
+        - "com.smarthome.service=hub"
+        - "com.smarthome.component=kern"
+
+  app:
+    image: quinxa/smarthome-app:latest
+    networks:
+      - smarthome-net
+    environment:
+      - HUB_URL=http://hub:5000
+    depends_on:
+      - hub                             
+    deploy:
+      replicas: 2                        
+      # placement:                       
+      #   constraints:
+      #     - node.role == worker        
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: rollback
+      labels:
+        - "com.smarthome.service=app"
+        - "com.smarthome.component=client"
+
+networks:
+  smarthome-net:
+    driver: overlay
+    attachable: true                     # handig voor debugging via 'docker run'
+
+volumes:
+  hub-plugins:
+    driver: local
