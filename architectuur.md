@@ -395,4 +395,6 @@ Onderstaande tabel toont een overzicht van de proofs-of-concept die zijn opgeste
 | --- | --- |
 | Device discovery - announcement | ./poc_annon/ |
 | Device discovery - probe | ./poc-device-discovery/ |
+| Authentication plugin | ./poc_auth_plugin/ |
+| Scenario's & Automatisatie | ./poc-scenario/ |
 
