@@ -102,7 +102,18 @@ Je zou `1/1` moeten zien onder REPLICAS.
 
 Stap 5 — UI openen
 
-http://localhost:5000
+Gebruik het IP-adres van de manager node:
+
+```
+http://<manager-ip>:5000
+```
+
+Voorbeelden:
+- Lokaal op dezelfde machine: `http://localhost:5000`
+- Op een ander IP: `http://172.31.107.227:5000`
+
+Je manager-IP vind je met `docker info | grep -i "node address"`
+
 
 ## Stoppen
 

@@ -1,6 +1,6 @@
 services:
   scenario-poc:
-    image: scenario-poc:latest
+    image: ar3eba/scenario-poc:latest
 
     ports:
       - "5000:5000"
