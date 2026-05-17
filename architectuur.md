@@ -62,6 +62,10 @@ Deze adr gaat over het kiezen van een architecturale stijl. Volgende vergelijkin
 - Adapters zitten ingebouwd. Vereist update van de app voor nieuwe integraties [interoperability-/maintainability-]
 - Latente koppeling die zich voordoet als modulariteit doet op termijn de grenzen vervagen [maintainability-]
 
+**Microkernel**
++ Adapters kunnen als plugins bestaan, los van de kern [interoperability+/maintainability+]
++ Minder code door minimale kern [security+/maintainability+/performance+/reliability+]
+
 **Microservices**
 - Moeilijk om consistente UX te garanderen [useability-] (wat wordt hiermee bedoeld?)
 - Veel overhead door onderlingen communicatie services [performance-]
@@ -71,9 +75,6 @@ Er wordt gekozen voor een microkernel architectuur.
 
 
 ### GEVOLGEN
-## Voordelig
-+ Adapters kunnen als plugins bestaan, los van de kern [interoperability+/maintainability+]
-+ Minder code door minimale kern [security+/maintainability+/performance+/reliability+]
 
 
 ### GOVERNANCE
