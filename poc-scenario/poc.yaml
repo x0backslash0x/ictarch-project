@@ -1,0 +1,9 @@
+services:
+  scenario-poc:
+    image: ar3eba/scenario-poc:latest
+
+    ports:
+      - "5000:5000"
+
+    deploy:
+      replicas: 1

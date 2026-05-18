@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  hub:
+    image: docker.io/kenujasatheeskumar94/poc-hub:1.0
+    ports:
+      - "5000:5000"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    networks:
+      - smarthome
+
+  app:
+    image: docker.io/kenujasatheeskumar94/poc-app:1.0
+    ports:
+      - "5001:5001"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    networks:
+      - smarthome
+
+networks:
+  smarthome:
+    #external: true
+    driver: overlay
+    name: smarthome
