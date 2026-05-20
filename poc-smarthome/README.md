@@ -21,17 +21,14 @@ Web Browser ---> App Service (`/app` - Python/Flask Frontend) ---> (Interne API-
 
 ### Handleiding en Commando's
 
-#### Stap 1: Navigeer naar de juiste directory
-``cd poc-smarthome``
+#### Deployment commands
 
-#### Stap 2: Initialiseer Docker Swarm (indien nog niet actief)
-``docker swarm init --advertise-addr 172.31.230.19``
-
-#### Stap 3: Deploy de applicatiestack binnen het Swarm-cluster
-``docker stack deploy -c docker-compose.yml smarthome``
-
-#### Stap 4: Controleer de status van de opgestarte services
-``docker service ls``
+```bash
+docker login
+docker swarm init --advertise-addr <IP-VAN-DIE-LAPTOP>
+docker network create --driver overlay --attachable smarthome
+docker stack deploy -c docker-compose.yml smarthome
+```
 
 #### Browser openen
 1) Hub (Kernel Dashboard): ``http://localhost:5000``
